@@ -22,6 +22,7 @@ from django.core.mail import EmailMessage
 from carts.models import Cart, CartItem
 from carts.views import _cart_id
 import requests
+
 # Create your views here.
 
 def register(request):
