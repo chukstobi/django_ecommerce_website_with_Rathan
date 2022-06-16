@@ -39,6 +39,7 @@ def store(request, category_slug = None):
     return render(request, "store/store.html", context)
 
 
+
 def product_detail(request, category_slug, product_slug):
     try:
         single_product = Product.objects.get(category__slug=category_slug, slug = product_slug)
@@ -47,9 +48,12 @@ def product_detail(request, category_slug, product_slug):
     except Exception as e:
         raise e
     
-    try:
-        orderproduct = OrderProduct.objects.filter(user=request.user, product_id = single_product.id).exists()
-    except OrderProduct.DoesNotExist:
+    if request.user.is_authenticated:
+        try:
+            orderproduct = OrderProduct.objects.filter(user=request.user, product_id = single_product.id).exists()
+        except OrderProduct.DoesNotExist:
+            orderproduct = None
+    else:
         orderproduct = None
 
     #GET THE REVIEWS
